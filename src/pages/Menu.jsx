@@ -8,10 +8,11 @@ const Menu = () => {
           {/* Classy Menu */}
           <nav className="classy-navbar" id="essenceNav">
             {/* Logo */}
-            <a className="nav-brand" href="">
-              <Link to={"/"}></Link>
-              <img src="./assets/img/core-img/logo.png" alt />
-            </a>
+            <Link to={"/"}>
+              <a className="nav-brand" href="">
+                <img src="./assets/img/core-img/logo.png" alt />
+              </a>
+            </Link>
             {/* Navbar Toggler */}
             <div className="classy-navbar-toggler">
               <span className="navbarToggler">
