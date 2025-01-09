@@ -1,11 +1,33 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext } from "react";
 import Menu from "./Menu";
 import { Link } from "react-router-dom";
+import { ProductContext } from "../contexts/ProductContext";
+import Product from "../components/Product";
 const Index = () => {
+  const { products } = useContext(ProductContext);
+  //get only men's & women's clothing category
+  const filteredProducts = products.filter((item) => {
+    return (
+      item.category === "men's clothing" || item.category === "women's clothing"
+    );
+  }, []);
+  // Filter products based on categories (Men, Women, Accessories, Jewelry)
+  const menProducts = products.filter(
+    (product) => product.category === "men's clothing"
+  );
+  const womenProducts = products.filter(
+    (product) => product.category === "women's clothing"
+  );
+  const accessoriesProducts = products.filter(
+    (product) => product.category === "electronics"
+  );
+  const jeweleryProducts = products.filter(
+    (product) => product.category === "jewelery"
+  );
+
   return (
     <Fragment>
       <div>
-        <Menu />
         <section
           className="welcome_area bg-img background-overlay"
           style={{ backgroundImage: "url(./assets/img/bg-img/bg-1.jpg)" }}
@@ -109,162 +131,17 @@ const Index = () => {
               </div>
             </div>
           </div>
-          <div className="container">
-            <div className="row">
-              <div className="col-12">
-                <div className="popular-products-slides owl-carousel">
-                  {/* Single Product */}
-                  <div className="single-product-wrapper">
-                    {/* Product Image */}
-                    <div className="product-img">
-                      <img src="./assets/img/product-img/product-1.jpg" alt />
-                      {/* Hover Thumb */}
-                      <img
-                        className="hover-img"
-                        src="./assets/img/product-img/product-2.jpg"
-                        alt
-                      />
-                      {/* Favourite */}
-                      <div className="product-favourite">
-                        <a href="#" className="favme fa fa-heart" />
-                      </div>
-                    </div>
-                    {/* Product Description */}
-                    <div className="product-description">
-                      <span>topshop</span>
-                      <a href="single-product-details.html">
-                        <h6>Knot Front Mini Dress</h6>
-                      </a>
-                      <p className="product-price">$80.00</p>
-                      {/* Hover Content */}
-                      <div className="hover-content">
-                        {/* Add to Cart */}
-                        <div className="add-to-cart-btn">
-                          <a href="#" className="btn essence-btn">
-                            Add to Cart
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Single Product */}
-                  <div className="single-product-wrapper">
-                    {/* Product Image */}
-                    <div className="product-img">
-                      <img src="./assets/img/product-img/product-2.jpg" alt />
-                      {/* Hover Thumb */}
-                      <img
-                        className="hover-img"
-                        src="./assets/img/product-img/product-3.jpg"
-                        alt
-                      />
-                      {/* Favourite */}
-                      <div className="product-favourite">
-                        <a href="#" className="favme fa fa-heart" />
-                      </div>
-                    </div>
-                    {/* Product Description */}
-                    <div className="product-description">
-                      <span>topshop</span>
-                      <a href="single-product-details.html">
-                        <h6>Poplin Displaced Wrap Dress</h6>
-                      </a>
-                      <p className="product-price">$80.00</p>
-                      {/* Hover Content */}
-                      <div className="hover-content">
-                        {/* Add to Cart */}
-                        <div className="add-to-cart-btn">
-                          <a href="#" className="btn essence-btn">
-                            Add to Cart
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Single Product */}
-                  <div className="single-product-wrapper">
-                    {/* Product Image */}
-                    <div className="product-img">
-                      <img src="./assets/img/product-img/product-3.jpg" alt />
-                      {/* Hover Thumb */}
-                      <img
-                        className="hover-img"
-                        src="./assets/img/product-img/product-4.jpg"
-                        alt
-                      />
-                      {/* Product Badge */}
-                      <div className="product-badge offer-badge">
-                        <span>-30%</span>
-                      </div>
-                      {/* Favourite */}
-                      <div className="product-favourite">
-                        <a href="#" className="favme fa fa-heart" />
-                      </div>
-                    </div>
-                    {/* Product Description */}
-                    <div className="product-description">
-                      <span>mango</span>
-                      <a href="single-product-details.html">
-                        <h6>PETITE Crepe Wrap Mini Dress</h6>
-                      </a>
-                      <p className="product-price">
-                        <span className="old-price">$75.00</span> $55.00
-                      </p>
-                      {/* Hover Content */}
-                      <div className="hover-content">
-                        {/* Add to Cart */}
-                        <div className="add-to-cart-btn">
-                          <a href="#" className="btn essence-btn">
-                            Add to Cart
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Single Product */}
-                  <div className="single-product-wrapper">
-                    {/* Product Image */}
-                    <div className="product-img">
-                      <img src="./assets/img/product-img/product-4.jpg" alt />
-                      {/* Hover Thumb */}
-                      <img
-                        className="hover-img"
-                        src="img/product-img/product-5.jpg"
-                        alt
-                      />
-                      {/* Product Badge */}
-                      <div className="product-badge new-badge">
-                        <span>New</span>
-                      </div>
-                      {/* Favourite */}
-                      <div className="product-favourite">
-                        <a href="#" className="favme fa fa-heart" />
-                      </div>
-                    </div>
-                    {/* Product Description */}
-                    <div className="product-description">
-                      <span>mango</span>
-                      <a href="single-product-details.html">
-                        <h6>PETITE Belted Jumper Dress</h6>
-                      </a>
-                      <p className="product-price">$80.00</p>
-                      {/* Hover Content */}
-                      <div className="hover-content">
-                        {/* Add to Cart */}
-                        <div className="add-to-cart-btn">
-                          <a href="#" className="btn essence-btn">
-                            Add to Cart
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+        </section>
+        {/* ##### New Arrivals Area End ##### */}
+        <section className="py-16">
+          <div className="container mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-[30px] max-w-sm mx-auto md:max-w-none md:mx-0">
+              {filteredProducts.map((product) => {
+                return <Product product={product} key={product.id} />;
+              })}
             </div>
           </div>
         </section>
-        {/* ##### New Arrivals Area End ##### */}
         {/* ##### Brands Area Start ##### */}
         <div className="brands-area d-flex align-items-center justify-content-between">
           {/* Brand Logo */}
@@ -293,153 +170,6 @@ const Index = () => {
           </div>
         </div>
         {/* ##### Brands Area End ##### */}
-        {/* ##### Footer Area Start ##### */}
-        <footer className="footer_area clearfix">
-          <div className="container">
-            <div className="row">
-              {/* Single Widget Area */}
-              <div className="col-12 col-md-6">
-                <div className="single_widget_area d-flex mb-30">
-                  {/* Logo */}
-                  <div className="footer-logo mr-50">
-                    <a href="#">
-                      <img src="./assets/img/core-img/logo2.png" alt />
-                    </a>
-                  </div>
-                  {/* Footer Menu */}
-                  <div className="footer_menu">
-                    <ul>
-                      <li>
-                        <Link to={"/shop"}>Shop</Link>
-                      </li>
-                      <li>
-                        <Link to={"/blog"}>Blog</Link>
-                      </li>
-                      <li>
-                        <Link to={"/contact"}>Contact</Link>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              {/* Single Widget Area */}
-              <div className="col-12 col-md-6">
-                <div className="single_widget_area mb-30">
-                  <ul className="footer_widget_menu">
-                    <li>
-                      <a href="#">Order Status</a>
-                    </li>
-                    <li>
-                      <a href="#">Payment Options</a>
-                    </li>
-                    <li>
-                      <a href="#">Shipping and Delivery</a>
-                    </li>
-                    <li>
-                      <a href="#">Guides</a>
-                    </li>
-                    <li>
-                      <a href="#">Privacy Policy</a>
-                    </li>
-                    <li>
-                      <a href="#">Terms of Use</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div className="row align-items-end">
-              {/* Single Widget Area */}
-              <div className="col-12 col-md-6">
-                <div className="single_widget_area">
-                  <div className="footer_heading mb-30">
-                    <h6>Subscribe</h6>
-                  </div>
-                  <div className="subscribtion_form">
-                    <form action="#" method="post">
-                      <input
-                        type="email"
-                        name="mail"
-                        className="mail"
-                        placeholder="Your email here"
-                      />
-                      <button type="submit" className="submit">
-                        <i
-                          className="fa fa-long-arrow-right"
-                          aria-hidden="true"
-                        />
-                      </button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-              {/* Single Widget Area */}
-              <div className="col-12 col-md-6">
-                <div className="single_widget_area">
-                  <div className="footer_social_area">
-                    <a
-                      href="#"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title="Facebook"
-                    >
-                      <i className="fa fa-facebook" aria-hidden="true" />
-                    </a>
-                    <a
-                      href="#"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title="Instagram"
-                    >
-                      <i className="fa fa-instagram" aria-hidden="true" />
-                    </a>
-                    <a
-                      href="#"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title="Twitter"
-                    >
-                      <i className="fa fa-twitter" aria-hidden="true" />
-                    </a>
-                    <a
-                      href="#"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title="Pinterest"
-                    >
-                      <i className="fa fa-pinterest" aria-hidden="true" />
-                    </a>
-                    <a
-                      href="#"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title="Youtube"
-                    >
-                      <i className="fa fa-youtube-play" aria-hidden="true" />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row mt-5">
-              <div className="col-md-12 text-center">
-                <p>
-                  {/* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. */}
-                  Copyright © All rights reserved | Made with{" "}
-                  <i className="fa fa-heart-o" aria-hidden="true" /> by{" "}
-                  <a href="https://colorlib.com" target="_blank">
-                    Colorlib
-                  </a>
-                  , distributed by{" "}
-                  <a href="https://themewagon.com/" target="_blank">
-                    ThemeWagon
-                  </a>
-                  {/* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. */}
-                </p>
-              </div>
-            </div>
-          </div>
-        </footer>
       </div>
     </Fragment>
   );

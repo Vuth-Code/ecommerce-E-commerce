@@ -1,10 +1,23 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import Menu from "./Menu";
-const checkout = () => {
+import { CartContext } from "../contexts/CartContext";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import PayPalComponent from "../components/Paypal";
+const Checkout = () => {
+  const { total } = useContext(CartContext);
+  const [method, setMethod] = useState("cod");
+
+  //paypal
+  const handleError = (err) => {
+    toast.warning("An error occurred during the transaction.");
+  };
+  const handleApprove = (details) => {
+    toast.success(`Transaction completed by ${details.payer.name.given_name}`);
+  };
   return (
     <Fragment>
       <div>
-        <Menu />
         {/* ##### Breadcumb Area Start ##### */}
         <div
           className="breadcumb_area bg-img"
@@ -208,24 +221,30 @@ const checkout = () => {
                     <li>
                       <span>Product</span> <span>Total</span>
                     </li>
+
                     <li>
-                      <span>Cocktail Yellow dress</span> <span>$59.90</span>
-                    </li>
-                    <li>
-                      <span>Subtotal</span> <span>$59.90</span>
+                      <span>Subtotal</span>{" "}
+                      <span>$ {parseFloat(total).toFixed(2)}</span>
                     </li>
                     <li>
                       <span>Shipping</span> <span>Free</span>
                     </li>
                     <li>
-                      <span>Total</span> <span>$59.90</span>
+                      <span>Total</span>{" "}
+                      <span>$ {parseFloat(total).toFixed(2)}</span>
                     </li>
                   </ul>
                   <div id="accordion" role="tablist" className="mb-4">
                     <div className="card">
                       <div className="card-header" role="tab" id="headingOne">
-                        <h6 className="mb-0">
+                        {/* <h6 className="mb-0 flex justify-center items-center">
                           <a
+                            className={` ${
+                              method === "paypal"
+                                ? "bg-light border-primary "
+                                : ""
+                            }`}
+                            onClick={() => setMethod("paypal")}
                             data-toggle="collapse"
                             href="#collapseOne"
                             aria-expanded="false"
@@ -234,278 +253,97 @@ const checkout = () => {
                             <i className="fa fa-circle-o mr-3" />
                             Paypal
                           </a>
-                        </h6>
-                      </div>
-                      <div
-                        id="collapseOne"
-                        className="collapse"
-                        role="tabpanel"
-                        aria-labelledby="headingOne"
-                        data-parent="#accordion"
-                      >
-                        <div className="card-body">
-                          <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Proin pharetra tempor so dales. Phasellus
-                            sagittis auctor gravida. Integ er bibendum sodales
-                            arcu id te mpus. Ut consectetur lacus.
-                          </p>
+                          <img
+                            className="w-[120px]"
+                            src="./assets/img/PayPal.png"
+                          />
+                        </h6> */}
+                        <div
+                          className={`pm-item flex  items-center justify-start gap-[100px] ${
+                            method === "paypal"
+                              ? "bg-light border-primary "
+                              : ""
+                          }`}
+                          onClick={() => setMethod("paypal")}
+                        >
+                          <input
+                            type="radio"
+                            name="pm"
+                            id="one"
+                            checked={method === "paypal"}
+                            onChange={() => setMethod("paypal")}
+                          />
+                          <label htmlFor="one">Paypal</label>
+                          <img className="w-28" src="./assets/img/PayPal.png" />
+                        </div>
+                        {/* cash */}
+                        <div
+                          className={`pm-item flex  items-center justify-start  gap-[50px] ${
+                            method === "cod" ? "bg-light border-primary" : ""
+                          }`}
+                          onClick={() => setMethod("cod")}
+                        >
+                          <input
+                            type="radio"
+                            name="pm"
+                            id="two"
+                            checked={method === "cod"}
+                            onChange={() => setMethod("cod")}
+                          />
+                          <label htmlFor="two">Cash on delievery</label>
+                          <img
+                            className="w-28 ms-10"
+                            src="./assets/img/cash.png"
+                            alt="CashOnDelivery"
+                          />
+                        </div>
+                        {/* credit */}
+                        <div
+                          className={`pm-item flex  items-center justify-start  gap-[90px]  ${
+                            method === "cod" ? "bg-light border-primary" : ""
+                          }`}
+                          onClick={() => setMethod("visa")}
+                        >
+                          <input
+                            type="radio"
+                            name="pm"
+                            id="three"
+                            checked={method === "visa"}
+                            onChange={() => setMethod("visa")}
+                          />
+                          <label htmlFor="three">Credit card</label>
+                          <img
+                            className="w-28"
+                            src="./assets/img/credit.png"
+                            alt=""
+                          />
                         </div>
                       </div>
                     </div>
-                    <div className="card">
-                      <div className="card-header" role="tab" id="headingTwo">
-                        <h6 className="mb-0">
-                          <a
-                            className="collapsed"
-                            data-toggle="collapse"
-                            href="#collapseTwo"
-                            aria-expanded="false"
-                            aria-controls="collapseTwo"
-                          >
-                            <i className="fa fa-circle-o mr-3" />
-                            cash on delievery
-                          </a>
-                        </h6>
-                      </div>
-                      <div
-                        id="collapseTwo"
-                        className="collapse"
-                        role="tabpanel"
-                        aria-labelledby="headingTwo"
-                        data-parent="#accordion"
-                      >
-                        <div className="card-body">
-                          <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Explicabo quis in veritatis officia inventore,
-                            tempore provident dignissimos.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="card">
-                      <div className="card-header" role="tab" id="headingThree">
-                        <h6 className="mb-0">
-                          <a
-                            className="collapsed"
-                            data-toggle="collapse"
-                            href="#collapseThree"
-                            aria-expanded="false"
-                            aria-controls="collapseThree"
-                          >
-                            <i className="fa fa-circle-o mr-3" />
-                            credit card
-                          </a>
-                        </h6>
-                      </div>
-                      <div
-                        id="collapseThree"
-                        className="collapse"
-                        role="tabpanel"
-                        aria-labelledby="headingThree"
-                        data-parent="#accordion"
-                      >
-                        <div className="card-body">
-                          <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Esse quo sint repudiandae suscipit ab soluta
-                            delectus voluptate, vero vitae
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="card">
-                      <div className="card-header" role="tab" id="headingFour">
-                        <h6 className="mb-0">
-                          <a
-                            className="collapsed"
-                            data-toggle="collapse"
-                            href="#collapseFour"
-                            aria-expanded="true"
-                            aria-controls="collapseFour"
-                          >
-                            <i className="fa fa-circle-o mr-3" />
-                            direct bank transfer
-                          </a>
-                        </h6>
-                      </div>
-                      <div
-                        id="collapseFour"
-                        className="collapse show"
-                        role="tabpanel"
-                        aria-labelledby="headingThree"
-                        data-parent="#accordion"
-                      >
-                        <div className="card-body">
-                          <p>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Est cum autem eveniet saepe fugit, impedit
-                            magni.
-                          </p>
-                        </div>
-                      </div>
+                    <div className="mt-4">
+                      {method === "paypal" ? (
+                        <PayPalComponent
+                          total={total}
+                          onApprove={handleApprove}
+                          onError={handleError}
+                        />
+                      ) : (
+                        <button className="site-btn btn-full btn essence-btn">
+                          Place Order
+                        </button>
+                      )}
                     </div>
                   </div>
-                  <a href="#" className="btn essence-btn">
-                    Place Order
-                  </a>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        {/* ##### Checkout Area End ##### */}
-        {/* ##### Footer Area Start ##### */}
-        <footer className="footer_area clearfix">
-          <div className="container">
-            <div className="row">
-              {/* Single Widget Area */}
-              <div className="col-12 col-md-6">
-                <div className="single_widget_area d-flex mb-30">
-                  {/* Logo */}
-                  <div className="footer-logo mr-50">
-                    <a href="#">
-                      <img src="./assets/img/core-img/logo2.png" alt />
-                    </a>
-                  </div>
-                  {/* Footer Menu */}
-                  <div className="footer_menu">
-                    <ul>
-                      <li>
-                        <a href="shop.html">Shop</a>
-                      </li>
-                      <li>
-                        <a href="blog.html">Blog</a>
-                      </li>
-                      <li>
-                        <a href="contact.html">Contact</a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              {/* Single Widget Area */}
-              <div className="col-12 col-md-6">
-                <div className="single_widget_area mb-30">
-                  <ul className="footer_widget_menu">
-                    <li>
-                      <a href="#">Order Status</a>
-                    </li>
-                    <li>
-                      <a href="#">Payment Options</a>
-                    </li>
-                    <li>
-                      <a href="#">Shipping and Delivery</a>
-                    </li>
-                    <li>
-                      <a href="#">Guides</a>
-                    </li>
-                    <li>
-                      <a href="#">Privacy Policy</a>
-                    </li>
-                    <li>
-                      <a href="#">Terms of Use</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div className="row align-items-end">
-              {/* Single Widget Area */}
-              <div className="col-12 col-md-6">
-                <div className="single_widget_area">
-                  <div className="footer_heading mb-30">
-                    <h6>Subscribe</h6>
-                  </div>
-                  <div className="subscribtion_form">
-                    <form action="#" method="post">
-                      <input
-                        type="email"
-                        name="mail"
-                        className="mail"
-                        placeholder="Your email here"
-                      />
-                      <button type="submit" className="submit">
-                        <i
-                          className="fa fa-long-arrow-right"
-                          aria-hidden="true"
-                        />
-                      </button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-              {/* Single Widget Area */}
-              <div className="col-12 col-md-6">
-                <div className="single_widget_area">
-                  <div className="footer_social_area">
-                    <a
-                      href="#"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title="Facebook"
-                    >
-                      <i className="fa fa-facebook" aria-hidden="true" />
-                    </a>
-                    <a
-                      href="#"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title="Instagram"
-                    >
-                      <i className="fa fa-instagram" aria-hidden="true" />
-                    </a>
-                    <a
-                      href="#"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title="Twitter"
-                    >
-                      <i className="fa fa-twitter" aria-hidden="true" />
-                    </a>
-                    <a
-                      href="#"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title="Pinterest"
-                    >
-                      <i className="fa fa-pinterest" aria-hidden="true" />
-                    </a>
-                    <a
-                      href="#"
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      title="Youtube"
-                    >
-                      <i className="fa fa-youtube-play" aria-hidden="true" />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="row mt-5">
-              <div className="col-md-12 text-center">
-                <p>
-                  {/* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. */}
-                  Copyright © All rights reserved | Made with{" "}
-                  <i className="fa fa-heart-o" aria-hidden="true" /> by{" "}
-                  <a href="https://colorlib.com" target="_blank">
-                    Colorlib
-                  </a>
-                  , distributed by{" "}
-                  <a href="https://themewagon.com/" target="_blank">
-                    ThemeWagon
-                  </a>
-                  {/* Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. */}
-                </p>
-              </div>
-            </div>
-          </div>
-        </footer>
       </div>
+
+      {/* ##### Checkout Area End ##### */}
     </Fragment>
   );
 };
 
-export default checkout;
+export default Checkout;

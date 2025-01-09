@@ -1,9 +1,26 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext, useState, useEffect } from "react";
+import { IoMdArrowForward } from "react-icons/io";
+import { FiTrash2 } from "react-icons/fi";
 import { Link } from "react-router-dom";
+//import conponents
+import CartItem from "../components/CartItem";
+//import sidebar contect
+import { SidebarContext } from "../contexts/SidebarContext";
+// import cart context
+import { CartContext } from "../contexts/CartContext";
+
 const Menu = () => {
+  const { isOpen, handleClose, setIsOpen } = useContext(SidebarContext);
+  const { cart, clearCart, total, itemAmount } = useContext(CartContext);
+  const [isActive, setIsActive] = useState(false);
+  useEffect(() => {
+    window.addEventListener("scroll", () => {
+      window.scrollY > 60 ? setIsActive(true) : setIsActive(false);
+    });
+  });
   return (
     <Fragment>
-      <header className="header_area">
+      <header className="header_area ">
         <div className="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
           {/* Classy Menu */}
           <nav className="classy-navbar" id="essenceNav">
@@ -66,34 +83,34 @@ const Menu = () => {
                           <Link to={"/shop"}>T-Shirts</Link>
                         </li>
                         <li>
-                          <a href="shop.html">Polo</a>
+                          <Link href="shop.html">Polo</Link>
                         </li>
                         <li>
-                          <a href="shop.html">Shirts</a>
+                          <Link href="shop.html">Shirts</Link>
                         </li>
                         <li>
-                          <a href="shop.html">Jackets</a>
+                          <Link href="shop.html">Jackets</Link>
                         </li>
                         <li>
-                          <a href="shop.html">Trench</a>
+                          <Link href="shop.html">Trench</Link>
                         </li>
                       </ul>
                       <ul className="single-mega cn-col-4">
                         <li className="title">Kid's Collection</li>
                         <li>
-                          <a href="shop.html">Dresses</a>
+                          <Link href="shop.html">Dresses</Link>
                         </li>
                         <li>
-                          <a href="shop.html">Shirts</a>
+                          <Link href="shop.html">Shirts</Link>
                         </li>
                         <li>
-                          <a href="shop.html">T-shirts</a>
+                          <Link href="shop.html">T-shirts</Link>
                         </li>
                         <li>
-                          <a href="shop.html">Jackets</a>
+                          <Link href="shop.html">Jackets</Link>
                         </li>
                         <li>
-                          <a href="shop.html">Trench</a>
+                          <Link href="shop.html">Trench</Link>
                         </li>
                       </ul>
                       <div className="single-mega cn-col-4">
@@ -102,8 +119,9 @@ const Menu = () => {
                     </div>
                   </li>
                   <li>
-                    <a href="#">Pages</a>
-                    <ul className="dropdown">
+                    {/* <Link>Pages</Link> */}
+                    <Link to={"/"}>Home</Link>
+                    {/* <ul className="dropdown ">
                       <li>
                         <Link to={"/"}>Home</Link>
                       </li>
@@ -122,15 +140,15 @@ const Menu = () => {
                         <Link to={"/Blog"}>Blog</Link>
                       </li>
                       <li>
-                        <a href="single-blog.html">Single Blog</a>
+                        <Link href="single-blog.html">Single Blog</Link>
                       </li>
                       <li>
-                        <a href="regular-page.html">Regular Page</a>
+                        <Link href="regular-page.html">Regular Page</Link>
                       </li>
                       <li>
                         <Link to={"/contact"}>Contact</Link>
                       </li>
-                    </ul>
+                    </ul> */}
                   </li>
                   <li>
                     <Link to={"/Blog"}>Blog</Link>
@@ -144,7 +162,7 @@ const Menu = () => {
             </div>
           </nav>
           {/* Header Meta Data */}
-          <div className="header-meta d-flex clearfix justify-content-end">
+          <div className="header-meta d-flex clearfix justify-content-end relative">
             {/* Search Area */}
             <div className="search-area">
               <form action="#" method="post">
@@ -160,22 +178,35 @@ const Menu = () => {
               </form>
             </div>
             {/* Favourite Area */}
-            <div className="favourite-area">
-              <a href="#">
-                <img src="./assets/img/core-img/heart.svg" alt />
-              </a>
+            <div className="favourite-area relative">
+              <Link>
+                <img
+                  className="absolute top-[35px] right-[35px] "
+                  src="./assets/img/core-img/heart.svg"
+                  alt
+                />
+              </Link>
             </div>
             {/* User Login Info */}
-            <div className="user-login-info">
-              <a href="#">
-                <img src="./assets/img/core-img/user.svg" alt />
-              </a>
+            <div className="user-login-info relative">
+              <Link>
+                <img
+                  className="absolute top-[35px] right-[35px]"
+                  src="./assets/img/core-img/user.svg"
+                  alt
+                />
+              </Link>
             </div>
             {/* Cart Area */}
-            <div className="cart-area">
-              <a href="#" id="essenceCartBtn">
-                <img src="./assets/img/core-img/bag.svg" alt /> <span>3</span>
-              </a>
+            <div className="cart-area relative">
+              <Link onClick={() => setIsOpen(!isOpen)} id="essenceCartBtn ">
+                <img
+                  className="absolute top-[35px] right-[35px]"
+                  src="./assets/img/core-img/bag.svg"
+                  alt
+                />
+                <span className="ml-2">{itemAmount}</span>
+              </Link>
             </div>
           </div>
         </div>
@@ -186,98 +217,21 @@ const Menu = () => {
       <div className="right-side-cart-area">
         {/* Cart Button */}
         <div className="cart-button">
-          <a href="#" id="rightSideCart">
-            <img src="./assets/img/core-img/bag.svg" alt /> <span>3</span>
-          </a>
+          <Link id="rightSideCart">
+            <img src="./assets/img/core-img/bag.svg" alt />
+          </Link>
         </div>
         <div className="cart-content d-flex">
           {/* Cart List Area */}
           <div className="cart-list">
-            {/* Single Cart Item */}
             <div className="single-cart-item">
-              <a href="#" className="product-image">
-                <img
-                  src="./assets/img/product-img/product-1.jpg"
-                  className="cart-thumb"
-                  alt
-                />
-                {/* Cart Item Desc */}
-                <div className="cart-item-desc">
-                  <span className="product-remove">
-                    <i className="fa fa-close" aria-hidden="true" />
-                  </span>
-                  <span className="badge">Mango</span>
-                  <h6>Button Through Strap Mini Dress</h6>
-                  <p className="size">Size: S</p>
-                  <p className="color">Color: Red</p>
-                  <p className="price">$45.00</p>
-                </div>
-              </a>
-            </div>
-            {/* Single Cart Item */}
-            <div className="single-cart-item">
-              <a href="#" className="product-image">
+              <Link className="product-image">
                 <img
                   src="./assets/img/product-img/product-2.jpg"
                   className="cart-thumb"
                   alt
                 />
-                {/* Cart Item Desc */}
-                <div className="cart-item-desc">
-                  <span className="product-remove">
-                    <i className="fa fa-close" aria-hidden="true" />
-                  </span>
-                  <span className="badge">Mango</span>
-                  <h6>Button Through Strap Mini Dress</h6>
-                  <p className="size">Size: S</p>
-                  <p className="color">Color: Red</p>
-                  <p className="price">$45.00</p>
-                </div>
-              </a>
-            </div>
-            {/* Single Cart Item */}
-            <div className="single-cart-item">
-              <a href="#" className="product-image">
-                <img
-                  src="./assets/img/product-img/product-3.jpg"
-                  className="cart-thumb"
-                  alt
-                />
-                {/* Cart Item Desc */}
-                <div className="cart-item-desc">
-                  <span className="product-remove">
-                    <i className="fa fa-close" aria-hidden="true" />
-                  </span>
-                  <span className="badge">Mango</span>
-                  <h6>Button Through Strap Mini Dress</h6>
-                  <p className="size">Size: S</p>
-                  <p className="color">Color: Red</p>
-                  <p className="price">$45.00</p>
-                </div>
-              </a>
-            </div>
-          </div>
-          {/* Cart Summary */}
-          <div className="cart-amount-summary">
-            <h2>Summary</h2>
-            <ul className="summary-table">
-              <li>
-                <span>subtotal:</span> <span>$274.00</span>
-              </li>
-              <li>
-                <span>delivery:</span> <span>Free</span>
-              </li>
-              <li>
-                <span>discount:</span> <span>-15%</span>
-              </li>
-              <li>
-                <span>total:</span> <span>$232.00</span>
-              </li>
-            </ul>
-            <div className="checkout-btn mt-100">
-              <a href="checkout.html" className="btn essence-btn">
-                check out
-              </a>
+              </Link>
             </div>
           </div>
         </div>
